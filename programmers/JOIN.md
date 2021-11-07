@@ -45,3 +45,29 @@ ORDER BY I.DATETIME
 LIMIT 3
 ```
 
+
+
+##### 보호소에서 중성화한 동물
+
+- `IN` 활용
+
+```sql
+SELECT I.ANIMAL_ID, I.ANIMAL_TYPE, I.NAME
+FROM ANIMAL_INS I
+LEFT JOIN ANIMAL_OUTS O
+ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE I.SEX_UPON_INTAKE IN ('Intact Female', 'Intact Male') AND O.SEX_UPON_OUTCOME IN ('Spayed Female', 'Neutered Female', 'Spayed Male', 'Neutered Male')
+```
+
+- `LIKE` 활용
+  - %: 여러 문자열을 대신함
+  - _: 한 개의 문자를 대신함
+
+```SQL
+SELECT I.ANIMAL_ID, I.ANIMAL_TYPE, I.NAME
+FROM ANIMAL_INS I
+LEFT JOIN ANIMAL_OUTS O
+ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE I.SEX_UPON_INTAKE LIKE 'Intact%' AND (O.SEX_UPON_OUTCOME LIKE 'Spayed%' OR O.SEX_UPON_OUTCOME LIKE 'Neutered%')
+```
+
